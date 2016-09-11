@@ -9,8 +9,8 @@ ViewSelectMode.VIEWS =
     { id: VIEW_PIANO, name: 'Piano' },
     { id: VIEW_SEQUENCER, name: 'Sequencer' },
     { id: VIEW_RAINDROPS, name: 'Raindrop' },
-    { id: VIEW_DRUM, name: 'Drum' },
-    { id: null, name: '' },
+    { id: VIEW_DRUM, name: 'Drum 1' },
+    { id: VIEW_DRUM4, name: 'Drum 4' },
     { id: VIEW_CLIP, name: 'Clip' },
     { id: VIEW_PRG_CHANGE, name: 'PrgChnge' }
 ];

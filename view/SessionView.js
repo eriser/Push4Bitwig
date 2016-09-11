@@ -37,7 +37,7 @@ SessionView.prototype.updateRibbonModeValue = function ()
     this.surface.setRibbonValue (Config.toMidiValue(this.model.getTransport ().getCrossfade ()));
 };
 
-SessionView.prototype.drawSceneButtons = function ()
+SessionView.prototype.updateSceneButtons = function ()
 {
     var tb = this.model.getCurrentTrackBank ();
     var color = PUSH_COLOR_BLACK;
@@ -201,12 +201,13 @@ SessionView.prototype.onSession = function (event)
         this.canScrollDown = this.canScrollRight;
         this.canScrollLeft = dUp;
         this.canScrollRight = dDown;
-        this.drawSceneButtons ();
     }
 };
 
-SessionView.prototype.onScene = function (scene)
+SessionView.prototype.onScene = function (scene, event)
 {
+    if (!event.isDown ())
+        return;
     this.sceneOrSecondRowButtonPressed (scene, !Config.flipSession);
 };
 
@@ -237,8 +238,6 @@ SessionView.prototype.sceneOrSecondRowButtonPressed = function (index, isScene)
             }
             else
                 AbstractView.prototype.onSecondRow.call (this, index);
-            
-            this.drawSceneButtons ();
         }
     }
 };

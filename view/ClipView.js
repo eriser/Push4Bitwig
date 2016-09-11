@@ -111,16 +111,16 @@ ClipView.prototype.drawGrid = function ()
         this.surface.pads.lightEx (pad % 8, Math.floor (pad / 8), pad >= loopStartPad && pad < loopEndPad ? (pad == currentMeasure ? PUSH_COLOR2_GREEN : PUSH_COLOR2_WHITE) : PUSH_COLOR_BLACK, null, false);
 };
 
-ClipView.prototype.onScene = function (index)
+ClipView.prototype.onScene = function (index, event)
 {
-    if (7 - index > 3)
+    if (!event.isDown ())
         return;
-
-    this.padResolution = 7 - index;
-    this.drawSceneButtons ();
+    var res = 7 - index;
+    if (res <= 3)
+        this.padResolution = res;
 };
 
-ClipView.prototype.drawSceneButtons = function ()
+ClipView.prototype.updateSceneButtons = function ()
 {
     for (var i = 0; i < 8; i++)
     {

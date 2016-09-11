@@ -30,8 +30,6 @@ PrgChangeView.prototype.onActivate = function ()
     this.surface.updateButton (PUSH_BUTTON_NOTE, PUSH_BUTTON_STATE_HI);
     this.surface.updateButton (PUSH_BUTTON_SESSION, PUSH_BUTTON_STATE_ON);
     this.surface.updateButton (PUSH_BUTTON_ACCENT, Config.accentActive ? PUSH_BUTTON_STATE_HI : PUSH_BUTTON_STATE_ON);
-    
-    this.drawSceneButtons ();
 };
 
 PrgChangeView.prototype.usesButton = function (buttonID)
@@ -51,8 +49,10 @@ PrgChangeView.prototype.usesButton = function (buttonID)
     return true;
 };
 
-PrgChangeView.prototype.onScene = function (index)
+PrgChangeView.prototype.onScene = function (index, event)
 {
+    if (!event.isDown ())
+        return;
     var newBank = index;
     if (newBank == this.bankNumber)
         this.isToggled = !this.isToggled;
@@ -65,10 +65,9 @@ PrgChangeView.prototype.onScene = function (index)
         if (this.programNumber != -1)
             this.surface.sendMidiEvent (0xC0, this.programNumber, 0);
     }
-    this.drawSceneButtons ();
 };
 
-PrgChangeView.prototype.drawSceneButtons = function ()
+PrgChangeView.prototype.updateSceneButtons = function ()
 {
     for (var i = 0; i < 8; i++)
         this.surface.updateButton (PUSH_BUTTON_SCENE1 + i, this.bankNumber == (7 - i) ? (this.isToggled ? PUSH_COLOR_SCENE_YELLOW : PUSH_COLOR_SCENE_GREEN) : PUSH_COLOR_BLACK);
@@ -99,11 +98,9 @@ PrgChangeView.prototype.onGridNote = function (note, velocity)
 PrgChangeView.prototype.scrollUp = function (event)
 {
     this.isToggled = false;
-    this.drawSceneButtons ();
 };
 
 PrgChangeView.prototype.scrollDown = function (event)
 {
     this.isToggled = true;
-    this.drawSceneButtons ();
 };

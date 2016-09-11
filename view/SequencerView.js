@@ -30,8 +30,6 @@ SequencerView.prototype.updateArrowStates = function ()
     this.canScrollDown = this.offsetY - SequencerView.NUM_OCTAVE >= 0;
     this.canScrollLeft = this.offsetX > 0;
     this.canScrollRight = true; // TODO API extension required - We do not know the number of steps
-
-    this.drawSceneButtons ();
 };
 
 SequencerView.prototype.updateScale = function ()

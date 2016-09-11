@@ -143,7 +143,15 @@ var PUSH_BUTTONS_ALL =
     PUSH_BUTTON_UNDO,
     PUSH_BUTTON_SETUP,
     PUSH_BUTTON_LAYOUT,
-    PUSH_BUTTON_CONVERT
+    PUSH_BUTTON_CONVERT,
+    PUSH_BUTTON_SCENE1,
+    PUSH_BUTTON_SCENE2,
+    PUSH_BUTTON_SCENE3,
+    PUSH_BUTTON_SCENE4,
+    PUSH_BUTTON_SCENE5,
+    PUSH_BUTTON_SCENE6,
+    PUSH_BUTTON_SCENE7,
+    PUSH_BUTTON_SCENE8
 ];
 
 var PUSH_BUTTON_UPDATE = initArray (true, 127);
@@ -170,7 +178,14 @@ PUSH_BUTTON_UPDATE[PUSH_BUTTON_LEFT]         = false;
 PUSH_BUTTON_UPDATE[PUSH_BUTTON_RIGHT]        = false;
 PUSH_BUTTON_UPDATE[PUSH_BUTTON_UP]           = false;
 PUSH_BUTTON_UPDATE[PUSH_BUTTON_DOWN]         = false;
-
+PUSH_BUTTON_UPDATE[PUSH_BUTTON_SCENE1]       = false;
+PUSH_BUTTON_UPDATE[PUSH_BUTTON_SCENE2]       = false;
+PUSH_BUTTON_UPDATE[PUSH_BUTTON_SCENE3]       = false;
+PUSH_BUTTON_UPDATE[PUSH_BUTTON_SCENE4]       = false;
+PUSH_BUTTON_UPDATE[PUSH_BUTTON_SCENE5]       = false;
+PUSH_BUTTON_UPDATE[PUSH_BUTTON_SCENE6]       = false;
+PUSH_BUTTON_UPDATE[PUSH_BUTTON_SCENE7]       = false;
+PUSH_BUTTON_UPDATE[PUSH_BUTTON_SCENE8]       = false;
 
 
 var PUSH_RIBBON_PITCHBEND = 0;
@@ -645,16 +660,15 @@ Push.prototype.handleEvent = function (cc, value)
             break;
 
         // Scene buttons
-        case 36:    // 1/4
-        case 37:    
-        case 38:
-        case 39:
-        case 40:    // ...
-        case 41:
-        case 42:
-        case 43:    // 1/32T
-            if (value == 127)
-                view.onScene (7 - (cc - 36));
+        case PUSH_BUTTON_SCENE1:    // 1/4
+        case PUSH_BUTTON_SCENE2:    
+        case PUSH_BUTTON_SCENE3:
+        case PUSH_BUTTON_SCENE4:
+        case PUSH_BUTTON_SCENE5:    // ...
+        case PUSH_BUTTON_SCENE6:
+        case PUSH_BUTTON_SCENE7:
+        case PUSH_BUTTON_SCENE8:    // 1/32T
+            view.onScene (7 - (cc - 36), event);
             break;
 
         // Left

@@ -29,7 +29,6 @@ AbstractSequencerView.prototype.onActivate = function ()
     this.surface.updateButton (PUSH_BUTTON_SESSION, PUSH_BUTTON_STATE_ON);
     this.surface.updateButton (PUSH_BUTTON_ACCENT, Config.accentActive ? PUSH_BUTTON_STATE_HI : PUSH_BUTTON_STATE_ON);
     this.model.getCurrentTrackBank ().setIndication (false);
-    this.drawSceneButtons ();
 
     this.updateRibbonMode ();
 };
@@ -52,25 +51,25 @@ AbstractSequencerView.prototype.scrollRight = function (event)
     this.clip.scrollStepsPageForward ();
 };
 
-AbstractSequencerView.prototype.onScene = function (index)
+AbstractSequencerView.prototype.onScene = function (index, event)
 {
+    if (!event.isDown ())
+        return;
+    if (!this.model.canSelectedTrackHoldNotes ())
+        return;
     this.selectedIndex = 7 - index;
     this.clip.setStepLength (this.resolutions[this.selectedIndex]);
-    this.drawSceneButtons ();
 };
 
-AbstractSequencerView.prototype.drawSceneButtons = function ()
+AbstractSequencerView.prototype.updateSceneButtons = function ()
 {
     if (this.model.canSelectedTrackHoldNotes ())
     {
         for (var i = PUSH_BUTTON_SCENE1; i <= PUSH_BUTTON_SCENE8; i++)
             this.surface.updateButton (i, i == PUSH_BUTTON_SCENE1 + this.selectedIndex ? PUSH_COLOR_SCENE_YELLOW : PUSH_COLOR_SCENE_GREEN);
+        return;
     }
-    else
-    {
-        for (var i = PUSH_BUTTON_SCENE1; i <= PUSH_BUTTON_SCENE8; i++)
-            this.surface.updateButton (i, PUSH_BUTTON_STATE_OFF);
-    }
+    AbstractView.prototype.updateSceneButtons.call (this);
 };
 
 AbstractSequencerView.prototype.isInXRange = function (x)

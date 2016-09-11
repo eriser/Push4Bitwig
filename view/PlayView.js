@@ -55,16 +55,9 @@ PlayView.prototype.onActivate = function ()
     this.surface.updateButton (PUSH_BUTTON_SESSION, PUSH_BUTTON_STATE_ON);
     this.surface.updateButton (PUSH_BUTTON_ACCENT, Config.accentActive ? PUSH_BUTTON_STATE_HI : PUSH_BUTTON_STATE_ON);
     this.model.getCurrentTrackBank ().setIndication (false);
-    this.updateSceneButtons ();
     this.initMaxVelocity ();
 
     this.updateRibbonMode ();
-};
-
-PlayView.prototype.updateSceneButtons = function (buttonID)
-{
-    for (var i = 0; i < 8; i++)
-        this.surface.updateButton (PUSH_BUTTON_SCENE1 + i, PUSH_COLOR_BLACK);
 };
 
 PlayView.prototype.usesButton = function (buttonID)

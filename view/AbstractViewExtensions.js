@@ -425,7 +425,7 @@ AbstractView.prototype.onStop = function (event)
     this.stopPressed = !event.isUp ();
 };
 
-AbstractView.prototype.onScene = function (index) {};
+AbstractView.prototype.onScene = function (index, event) {};
 
 //--------------------------------------
 // Group 7
@@ -1321,7 +1321,16 @@ AbstractView.prototype.updateArrows = function ()
     this.surface.updateButton (PUSH_BUTTON_RIGHT, this.canScrollRight ? PUSH_BUTTON_STATE_ON : PUSH_BUTTON_STATE_OFF);
     this.surface.updateButton (PUSH_BUTTON_UP, this.canScrollUp ? PUSH_BUTTON_STATE_ON : PUSH_BUTTON_STATE_OFF);
     this.surface.updateButton (PUSH_BUTTON_DOWN, this.canScrollDown ? PUSH_BUTTON_STATE_ON : PUSH_BUTTON_STATE_OFF);
+
+    this.updateSceneButtons ();
 };
+
+AbstractView.prototype.updateSceneButtons = function ()
+{
+    // Turn off scene buttons
+    for (var i = PUSH_BUTTON_SCENE1; i <= PUSH_BUTTON_SCENE8; i++)
+        this.surface.updateButton (i, PUSH_BUTTON_STATE_OFF);
+}
 
 AbstractView.prototype.setShowDevices = function (enable)
 {

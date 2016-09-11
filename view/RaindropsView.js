@@ -29,8 +29,6 @@ RaindropsView.prototype.updateArrowStates = function ()
     this.canScrollDown = false;
     this.canScrollLeft = this.offsetY - RaindropsView.NUM_OCTAVE >= 0;
     this.canScrollRight = this.offsetY + RaindropsView.NUM_OCTAVE <= this.clip.getRowSize () - RaindropsView.NUM_OCTAVE;
-
-    this.drawSceneButtons ();
 };
 
 RaindropsView.prototype.updateNoteMapping = function ()
@@ -81,10 +79,12 @@ RaindropsView.prototype.onGridNote = function (note, velocity)
     }
 };
 
-RaindropsView.prototype.onScene = function (index)
+RaindropsView.prototype.onScene = function (index, event)
 {
+    if (!event.isDown ())
+        return;
     this.ongoingResolutionChange = true;
-    AbstractSequencerView.prototype.onScene.call (this, index);
+    AbstractSequencerView.prototype.onScene.call (this, index, event);
     this.ongoingResolutionChange = false;    
 };
 
