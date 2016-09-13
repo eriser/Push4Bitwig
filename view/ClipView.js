@@ -4,7 +4,7 @@
 
 function ClipView (model)
 {
-    AbstractSequencerView.call (this, model, 0, 0);
+    BaseSequencerView.call (this, model, 0, 0);
 
     if (model == null)
         return;
@@ -13,7 +13,7 @@ function ClipView (model)
     this.padResolutions = [ 1, 4, 16 ];
     this.padResolution = 0;
 }
-ClipView.prototype = new AbstractSequencerView ();
+ClipView.prototype = new BaseSequencerView ();
 
 ClipView.prototype.scrollLeft = function (event)
 {

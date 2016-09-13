@@ -9,8 +9,9 @@ function AbstractSequencerView (model, rows, cols)
 
     AbstractView.call (this, model);
 
-    this.resolutions = [ 1, 2/3, 1/2, 1/3, 1/4, 1/6, 1/8, 1/12 ];
-    this.selectedIndex = 4;
+    this.resolutions    = [ 1, 2/3, 1/2, 1/3, 1/4, 1/6, 1/8, 1/12 ];
+    this.resolutionsStr = [ "1/4", "1/4t", "1/8", "1/8t", "1/16", "1/16t", "1/32", "1/32t" ];
+    this.selectedIndex  = 4;
     this.scales = this.model.getScales ();
 
     this.offsetX = 0;
@@ -20,18 +21,6 @@ function AbstractSequencerView (model, rows, cols)
     this.clip.setStepLength (this.resolutions[this.selectedIndex]);
 }
 AbstractSequencerView.prototype = new AbstractView ();
-
-AbstractSequencerView.prototype.onActivate = function ()
-{
-    AbstractView.prototype.onActivate.call (this);
-
-    this.surface.updateButton (PUSH_BUTTON_NOTE, PUSH_BUTTON_STATE_HI);
-    this.surface.updateButton (PUSH_BUTTON_SESSION, PUSH_BUTTON_STATE_ON);
-    this.surface.updateButton (PUSH_BUTTON_ACCENT, Config.accentActive ? PUSH_BUTTON_STATE_HI : PUSH_BUTTON_STATE_ON);
-    this.model.getCurrentTrackBank ().setIndication (false);
-
-    this.updateRibbonMode ();
-};
 
 AbstractSequencerView.prototype.scrollLeft = function (event)
 {
@@ -53,23 +42,10 @@ AbstractSequencerView.prototype.scrollRight = function (event)
 
 AbstractSequencerView.prototype.onScene = function (index, event)
 {
-    if (!event.isDown ())
-        return;
-    if (!this.model.canSelectedTrackHoldNotes ())
+    if (!event.isDown () || !this.model.canSelectedTrackHoldNotes ())
         return;
     this.selectedIndex = 7 - index;
     this.clip.setStepLength (this.resolutions[this.selectedIndex]);
-};
-
-AbstractSequencerView.prototype.updateSceneButtons = function ()
-{
-    if (this.model.canSelectedTrackHoldNotes ())
-    {
-        for (var i = PUSH_BUTTON_SCENE1; i <= PUSH_BUTTON_SCENE8; i++)
-            this.surface.updateButton (i, i == PUSH_BUTTON_SCENE1 + this.selectedIndex ? PUSH_COLOR_SCENE_YELLOW : PUSH_COLOR_SCENE_GREEN);
-        return;
-    }
-    AbstractView.prototype.updateSceneButtons.call (this);
 };
 
 AbstractSequencerView.prototype.isInXRange = function (x)

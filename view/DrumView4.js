@@ -7,7 +7,7 @@ DrumView4.DRUM_START_KEY = 36;
 
 function DrumView4 (model)
 {
-    AbstractSequencerView.call (this, model, 128, DrumView4.NUM_DISPLAY_COLS);
+    BaseSequencerView.call (this, model, 128, DrumView4.NUM_DISPLAY_COLS);
     this.offsetY = DrumView4.DRUM_START_KEY;
     this.canScrollUp = false;
     this.canScrollDown = false;
@@ -28,7 +28,7 @@ function DrumView4 (model)
         this.clearPressedKeys ();
     }));
 }
-DrumView4.prototype = new AbstractSequencerView ();
+DrumView4.prototype = new BaseSequencerView ();
 
 DrumView4.prototype.updateArrowStates = function ()
 {
@@ -75,7 +75,7 @@ DrumView4.prototype.onMute = function (event)
     if (event.isLong ())
         return;
     this.updateNoteMapping ();
-    AbstractSequencerView.prototype.onMute.call (this, event);
+    BaseSequencerView.prototype.onMute.call (this, event);
 };
 
 DrumView4.prototype.onSolo = function (event)
@@ -83,7 +83,7 @@ DrumView4.prototype.onSolo = function (event)
     if (event.isLong ())
         return;
     this.updateNoteMapping ();
-    AbstractSequencerView.prototype.onSolo.call (this, event);
+    BaseSequencerView.prototype.onSolo.call (this, event);
 };
 
 DrumView4.prototype.onGridNote = function (note, velocity)
