@@ -169,6 +169,41 @@ Display.prototype.formatStr = function (value, format)
 // Push 2 specific
 //
 
+Display.prototype.showNotification = function (message)
+{
+    if (Config.isPush2)
+    {
+        var msg = this.createMessage (DisplayMessage.DISPLAY_COMMAND_GRID);
+        msg.addOptionElement ("", "", false, "", "", false);
+        msg.addOptionElement ("", "", false, "", "", false);
+        msg.addOptionElement ("", "", false, "", "", false);
+        msg.addOptionElement (message, "", false, "", "", false);
+        msg.addOptionElement ("", "", false, "", "", false);
+        msg.addOptionElement ("", "", false, "", "", false);
+        msg.addOptionElement ("", "", false, "", "", false);
+        msg.addOptionElement ("", "", false, "", "", false);
+        
+        if (this.isNotificationActive)
+            Config.sendPort = this.commPort;
+        
+        msg.send ();
+        
+        this.commPort = Config.sendPort;
+        Config.sendPort = -1;
+        this.isNotificationActive = true;
+        
+        scheduleTask (doObject (this, function ()
+        {
+            this.isNotificationActive = false;
+            Config.sendPort = this.commPort;
+        }), null, AbstractDisplay.NOTIFICATION_TIME);
+        
+        return;
+    }
+    
+    AbstractDisplay.prototype.showNotification.call (this, message);
+};
+
 Display.prototype.createMessage = function (command)
 {
     return new DisplayMessage (command);    
@@ -178,3 +213,10 @@ Display.prototype.shutdown = function ()
 {
     this.createMessage (DisplayMessage.DISPLAY_COMMAND_SHUTDOWN).send ();
 };
+
+function displayNotification (message, suppressDisplay)
+{
+    host.showPopupNotification (message);
+    if (!suppressDisplay)
+        controller.surface.getDisplay ().showNotification ('        ' + message);
+}

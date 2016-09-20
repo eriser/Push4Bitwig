@@ -41,7 +41,7 @@ DeviceLayerModeVolume.prototype.onValueKnobTouch = function (index, isTouched)
             return;
         }
 
-        displayNotification ("Volume: " + layer.volumeStr);
+        displayNotification ("Volume: " + layer.volumeStr, true);
     }
     
     cd.touchLayerOrDrumPadVolume (layer.index, isTouched);

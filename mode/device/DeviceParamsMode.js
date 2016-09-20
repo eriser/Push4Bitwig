@@ -58,7 +58,7 @@ DeviceParamsMode.prototype.onValueKnobTouch = function (index, isTouched)
         }
 
         var param = cd.getFXParam (index);
-        displayNotification (param.name + ": " + param.valueStr);
+        displayNotification (param.name + ": " + param.valueStr, true);
     }
     cd.getParameter (index).touch (isTouched);
     this.checkStopAutomationOnKnobRelease (isTouched);

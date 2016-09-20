@@ -9,19 +9,19 @@ SequencerView.START_KEY        = 36;
 
 function SequencerView (model)
 {
-    BaseSequencerView.call (this, model, 128, SequencerView.NUM_DISPLAY_COLS);
+    AbstractSequencerView.call (this, model, 128, SequencerView.NUM_DISPLAY_COLS);
     
     this.loopPadPressed = -1;
     this.offsetY = SequencerView.START_KEY;
 
     this.clip.scrollTo (0, SequencerView.START_KEY);   
 }
-SequencerView.prototype = new BaseSequencerView ();
+SequencerView.prototype = new AbstractSequencerView ();
 
 SequencerView.prototype.onActivate = function ()
 {
     this.updateScale ();
-    BaseSequencerView.prototype.onActivate.call (this);
+    AbstractSequencerView.prototype.onActivate.call (this);
 };
 
 SequencerView.prototype.updateArrowStates = function ()
@@ -116,14 +116,11 @@ SequencerView.prototype.updateOctave = function (value)
 {
     this.offsetY = value;
     this.updateScale ();
-    this.surface.getDisplay ().showNotification ('          ' + this.scales.getSequencerRangeText (this.noteMap[0], this.noteMap[6]));
+    displayNotification (this.scales.getSequencerRangeText (this.noteMap[0], this.noteMap[6]));
 };
 
 SequencerView.prototype.drawGrid = function ()
 {
-    // Also update the value of the ribbon
-    this.updateRibbonModeValue ();
-    
     var tb = this.model.getCurrentTrackBank ();
     var selectedTrack = tb.getSelectedTrack ();
     

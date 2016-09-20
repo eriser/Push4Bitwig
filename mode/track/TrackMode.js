@@ -98,13 +98,13 @@ TrackMode.prototype.onValueKnobTouch = function (index, isTouched)
             switch (index)
             {
                 case 0:
-                    displayNotification ("Volume: " + selectedTrack.volumeStr);
+                    displayNotification ("Volume: " + selectedTrack.volumeStr, true);
                     break;
                 case 1:
-                    displayNotification ("Pan: " + selectedTrack.panStr);
+                    displayNotification ("Pan: " + selectedTrack.panStr, true);
                     break;
                 case 2:
-                    displayNotification ("Crossfader: " + selectedTrack.crossfadeMode);
+                    displayNotification ("Crossfader: " + selectedTrack.crossfadeMode, true);
                     break;
                 case 3:
                     // Not used
@@ -114,7 +114,7 @@ TrackMode.prototype.onValueKnobTouch = function (index, isTouched)
                     var fxTrackBank = this.model.getEffectTrackBank ();
                     var name = (fxTrackBank == null ? selectedTrack.sends[sendIndex].name : fxTrackBank.getTrack (sendIndex).name);
                     if (name.length > 0)
-                        displayNotification ("Send " + name + ": " + selectedTrack.sends[sendIndex].volumeStr);
+                        displayNotification ("Send " + name + ": " + selectedTrack.sends[sendIndex].volumeStr, true);
                     break;
             }
         }
@@ -172,21 +172,21 @@ TrackMode.prototype.onValueKnobTouch = function (index, isTouched)
         switch (index)
         {
             case 0:
-                displayNotification ("Volume: " + selectedTrack.volumeStr);
+                displayNotification ("Volume: " + selectedTrack.volumeStr, true);
                 break;
             case 1:
-                displayNotification ("Pan: " + selectedTrack.panStr);
+                displayNotification ("Pan: " + selectedTrack.panStr, true);
                 break;
             case 2:
                 if (Config.displayCrossfader)
-                    displayNotification ("Crossfader: " + selectedTrack.crossfadeMode);
+                    displayNotification ("Crossfader: " + selectedTrack.crossfadeMode, true);
                 else
                 {
                     var sendIndex = 0;
                     var fxTrackBank = this.model.getEffectTrackBank ();
                     var name = (fxTrackBank == null ? selectedTrack.sends[sendIndex].name : fxTrackBank.getTrack (sendIndex).name);
                     if (name.length > 0)
-                        displayNotification ("Send " + name + ": " + selectedTrack.sends[sendIndex].volumeStr);
+                        displayNotification ("Send " + name + ": " + selectedTrack.sends[sendIndex].volumeStr, true);
                 }
                 break;
             default:

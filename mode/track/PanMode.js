@@ -29,7 +29,7 @@ PanMode.prototype.onValueKnobTouch = function (index, isTouched)
 
         var t = this.model.getCurrentTrackBank ().getTrack (index);
         if (t.exists)
-            displayNotification ("Pan: " + t.panStr);
+            displayNotification ("Pan: " + t.panStr, true);
     }    
 
     this.model.getCurrentTrackBank ().touchPan (index, isTouched);

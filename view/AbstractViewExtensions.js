@@ -85,8 +85,6 @@ AbstractView.prototype.updateRibbonMode = function ()
             this.surface.setRibbonMode (PUSH_RIBBON_PITCHBEND);
             break;
     }
-    
-    this.updateRibbonModeValue ();
 };
 
 AbstractView.prototype.updateRibbonModeValue = function ()
@@ -1232,6 +1230,8 @@ AbstractView.prototype.onFootswitch2 = function (value)
 
 AbstractView.prototype.updateButtons = function ()
 {
+    this.updateRibbonModeValue ();
+
     this.surface.updateButton (PUSH_BUTTON_ACCENT, Config.accentActive ? PUSH_BUTTON_STATE_HI : PUSH_BUTTON_STATE_ON);
 
     if (Config.isPush2)

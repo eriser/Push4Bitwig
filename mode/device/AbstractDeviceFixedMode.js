@@ -69,7 +69,7 @@ AbstractDeviceFixedMode.prototype.onValueKnobTouch = function (index, isTouched)
 
         var values = this.getParameterValues (index);
         if (values.name.length > 0)
-            displayNotification (values.name + ": " + values.valueStr);
+            displayNotification (values.name + ": " + values.valueStr, true);
     }
     this.getParameter (index).touch (isTouched);
     this.checkStopAutomationOnKnobRelease (isTouched);

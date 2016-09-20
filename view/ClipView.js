@@ -4,7 +4,7 @@
 
 function ClipView (model)
 {
-    BaseSequencerView.call (this, model, 0, 0);
+    AbstractSequencerView.call (this, model, 0, 0);
 
     if (model == null)
         return;
@@ -13,7 +13,7 @@ function ClipView (model)
     this.padResolutions = [ 1, 4, 16 ];
     this.padResolution = 0;
 }
-ClipView.prototype = new BaseSequencerView ();
+ClipView.prototype = new AbstractSequencerView ();
 
 ClipView.prototype.scrollLeft = function (event)
 {
@@ -95,9 +95,6 @@ ClipView.prototype.onGridNote = function (note, velocity)
 
 ClipView.prototype.drawGrid = function ()
 {
-    // Also update the value of the ribbon
-    this.updateRibbonModeValue ();
-    
     // Clip length/loop area
     var step = this.clip.getCurrentStep ();
     var quartersPerPad = this.getQuartersPerPad ();

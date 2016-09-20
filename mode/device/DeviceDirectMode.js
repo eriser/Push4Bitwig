@@ -77,7 +77,7 @@ DeviceDirectMode.prototype.onValueKnobTouch = function (index, isTouched)
         var pageOffset = cd.getSelectedDirectParameterPage () * 8;
         var param = pageOffset + index >= params.length ? this.emptyParameter : params[pageOffset + index];
         if (param.name.length > 0)
-            displayNotification (param.name + ": " + param.valueStr);
+            displayNotification (param.name + ": " + param.valueStr, true);
     }
     
     // Note: Direct parameters do not have parameter-objects and therefore cannot be

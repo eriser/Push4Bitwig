@@ -313,6 +313,4 @@ Controller.prototype.handleTrackChange = function (index, isSelected)
     this.scales.setDrumOctave (0);
     if (this.surface.isActiveView (VIEW_DRUM))
         this.surface.getView (VIEW_DRUM).updateNoteMapping ();
-    
-    this.surface.getActiveView ().updateRibbonModeValue ();
 };

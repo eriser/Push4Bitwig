@@ -11,9 +11,6 @@ PianoView.prototype = new PlayView ();
 
 PianoView.prototype.drawGrid = function ()
 {
-    // Also update the value of the ribbon
-    this.updateRibbonModeValue ();
-    
     if (!this.model.canSelectedTrackHoldNotes ())
     {
         this.surface.pads.turnOff ();
@@ -65,7 +62,7 @@ PianoView.prototype.onOctaveDown = function (event)
     this.clearPressedKeys ();
     this.scales.decPianoOctave ();
     this.updateNoteMapping ();
-    this.surface.getDisplay ().showNotification ('        ' + this.scales.getPianoRangeText ());
+    displayNotification (this.scales.getPianoRangeText ());
 };
 
 PianoView.prototype.onOctaveUp = function (event)
@@ -75,7 +72,7 @@ PianoView.prototype.onOctaveUp = function (event)
     this.clearPressedKeys ();
     this.scales.incPianoOctave ();
     this.updateNoteMapping ();
-    this.surface.getDisplay ().showNotification ('        ' + this.scales.getPianoRangeText ());
+    displayNotification (this.scales.getPianoRangeText ());
 };
 
 PianoView.prototype.updateNoteMapping = function ()

@@ -144,3 +144,18 @@ AbstractSessionView.USE_CLIP_COLOR                 = true;
 AbstractTrackBankProxy.COLORS[1][3] = PUSH_COLOR2_GREY_MD;
 AbstractTrackBankProxy.COLORS[2][3] = PUSH_COLOR2_GREY_LT;
 AbstractTrackBankProxy.COLORS[8][3] = 81;
+
+AbstractSequencerView.COLOR_STEP_HILITE_NO_CONTENT = PUSH_COLOR2_GREEN_LO;
+AbstractSequencerView.COLOR_STEP_HILITE_CONTENT    = PUSH_COLOR2_GREEN_HI;
+AbstractSequencerView.COLOR_NO_CONTENT             = PUSH_COLOR2_BLACK;
+AbstractSequencerView.COLOR_CONTENT                = PUSH_COLOR2_BLUE_HI;
+
+AbstractDrumView.COLOR_RECORD         = PUSH_COLOR2_RED_HI;
+AbstractDrumView.COLOR_PLAY           = PUSH_COLOR2_GREEN_HI;
+AbstractDrumView.COLOR_SELECTED       = PUSH_COLOR2_BLUE_HI;
+AbstractDrumView.COLOR_MUTED          = PUSH_COLOR2_AMBER_LO;
+AbstractDrumView.COLOR_HAS_CONTENT    = PUSH_COLOR2_YELLOW_HI;
+AbstractDrumView.COLOR_NO_CONTENT     = PUSH_COLOR2_YELLOW_LO;
+AbstractDrumView.COLOR_MEASURE        = PUSH_COLOR2_WHITE;
+AbstractDrumView.COLOR_ACTIVE_MEASURE = PUSH_COLOR2_GREEN;
+AbstractDrumView.COLOR_OFF            = PUSH_COLOR_BLACK;

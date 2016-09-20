@@ -38,9 +38,9 @@ MasterMode.prototype.onValueKnobTouch = function (index, isTouched)
         }
 
         if (index == 0)
-            displayNotification ("Volume: " + this.model.getMasterTrack ().getVolumeString ());
+            displayNotification ("Volume: " + this.model.getMasterTrack ().getVolumeString (), true);
         else if (index == 1)
-            displayNotification ("Pan: " + this.model.getMasterTrack ().getPanString ());
+            displayNotification ("Pan: " + this.model.getMasterTrack ().getPanString (), true);
     }
     
     if (index == 0)

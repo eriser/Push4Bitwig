@@ -9,18 +9,18 @@ RaindropsView.START_KEY        = 36;
 
 function RaindropsView (model)
 {
-    BaseSequencerView.call (this, model, 128, 32 * 16 /* Biggest number in Fixed Length */);
+    AbstractSequencerView.call (this, model, 128, 32 * 16 /* Biggest number in Fixed Length */);
     this.offsetY = RaindropsView.START_KEY;
     this.clip.scrollTo (0, RaindropsView.START_KEY);
     
     this.ongoingResolutionChange = false;
 }
-RaindropsView.prototype = new BaseSequencerView ();
+RaindropsView.prototype = new AbstractSequencerView ();
 
 RaindropsView.prototype.onActivate = function ()
 {
     this.updateScale ();
-    BaseSequencerView.prototype.onActivate.call (this);
+    AbstractSequencerView.prototype.onActivate.call (this);
 };
 
 RaindropsView.prototype.updateArrowStates = function ()
@@ -33,7 +33,7 @@ RaindropsView.prototype.updateArrowStates = function ()
 
 RaindropsView.prototype.updateNoteMapping = function ()
 {
-    BaseSequencerView.prototype.updateNoteMapping.call (this);
+    AbstractSequencerView.prototype.updateNoteMapping.call (this);
     this.updateScale ();
 };
 
@@ -84,7 +84,7 @@ RaindropsView.prototype.onScene = function (index, event)
     if (!event.isDown ())
         return;
     this.ongoingResolutionChange = true;
-    BaseSequencerView.prototype.onScene.call (this, index, event);
+    AbstractSequencerView.prototype.onScene.call (this, index, event);
     this.ongoingResolutionChange = false;    
 };
 
@@ -104,21 +104,18 @@ RaindropsView.prototype.scrollRight = function (event)
 {
     this.offsetY = Math.min (this.clip.getRowSize () - RaindropsView.NUM_OCTAVE, this.offsetY + RaindropsView.NUM_OCTAVE);
     this.updateScale ();
-    this.surface.getDisplay ().showNotification ('          ' + this.scales.getSequencerRangeText (this.noteMap[0], this.noteMap[7]));
+    displayNotification (this.scales.getSequencerRangeText (this.noteMap[0], this.noteMap[7]));
 };
 
 RaindropsView.prototype.scrollLeft = function (event)
 {
     this.offsetY = Math.max (0, this.offsetY - RaindropsView.NUM_OCTAVE);
     this.updateScale ();
-    this.surface.getDisplay ().showNotification ('          ' + this.scales.getSequencerRangeText (this.noteMap[0], this.noteMap[7]));
+    displayNotification (this.scales.getSequencerRangeText (this.noteMap[0], this.noteMap[7]));
 };
 
 RaindropsView.prototype.drawGrid = function ()
 {
-    // Also update the value of the ribbon
-    this.updateRibbonModeValue ();
-    
     if (!this.model.canSelectedTrackHoldNotes ())
     {
         this.surface.pads.turnOff ();

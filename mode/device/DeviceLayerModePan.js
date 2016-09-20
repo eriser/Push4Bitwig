@@ -41,7 +41,7 @@ DeviceLayerModePan.prototype.onValueKnobTouch = function (index, isTouched)
             return;
         }
 
-        displayNotification ("Pan: " + layer.panStr);
+        displayNotification ("Pan: " + layer.panStr, true);
     }
     
     cd.touchLayerOrDrumPadPan (layer.index, isTouched);

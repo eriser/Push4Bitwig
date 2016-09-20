@@ -33,7 +33,7 @@ SendMode.prototype.onValueKnobTouch = function (index, isTouched)
         var fxTrackBank = this.model.getEffectTrackBank ();
         var t = this.model.getCurrentTrackBank ().getTrack (index);
         if (t.exists)
-            displayNotification ("Send " + (fxTrackBank == null ? t.sends[sendIndex].name : fxTrackBank.getTrack (sendIndex).name) + ": " + t.sends[sendIndex].volumeStr);
+            displayNotification ("Send " + (fxTrackBank == null ? t.sends[sendIndex].name : fxTrackBank.getTrack (sendIndex).name) + ": " + t.sends[sendIndex].volumeStr, true);
     }
     
     this.model.getCurrentTrackBank ().touchSend (index, sendIndex, isTouched);

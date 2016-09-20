@@ -328,6 +328,8 @@ function Push (output, input)
     this.selectButtonId = PUSH_BUTTON_SELECT;
     this.shiftButtonId  = PUSH_BUTTON_SHIFT;
     this.deleteButtonId = PUSH_BUTTON_DELETE;
+    this.soloButtonId   = PUSH_BUTTON_SOLO;
+    this.muteButtonId   = PUSH_BUTTON_MUTE;
 
     this.pads    = new Grid (output);
     this.display = new Display (output);
@@ -431,15 +433,16 @@ Push.prototype.setRibbonMode = function (mode)
         var status = 0; 
         switch (mode)
         {
-            case Config.RIBBON_MODE_PITCH:
-            case Config.RIBBON_MODE_CC_PB:
-            case Config.RIBBON_MODE_PB_CC:
+            case PUSH_RIBBON_PITCHBEND:
                 status = 122;
                 break;
                 
-            case Config.RIBBON_MODE_CC:
-            case Config.RIBBON_MODE_FADER:
+            case PUSH_RIBBON_VOLUME:
                 status = 1;
+                break;
+                
+            case PUSH_RIBBON_PAN:
+                status = 17;
                 break;
         }
         this.sendPush2SysEx ([ 23, status ]);

@@ -29,7 +29,6 @@ SessionView.prototype.onPitchbend = function (data1, data2)
 SessionView.prototype.updateRibbonMode = function ()
 {
     this.surface.setRibbonMode (PUSH_RIBBON_PAN);
-    this.updateRibbonModeValue ();
 };
 
 SessionView.prototype.updateRibbonModeValue = function ()
@@ -131,9 +130,6 @@ SessionView.prototype.drawGrid = function ()
     }
     
     AbstractSessionView.prototype.drawGrid.call (this);
-
-    // Also update the value of the ribbon
-    this.updateRibbonModeValue ();
 };
 
 SessionView.prototype.updateDevice = function ()

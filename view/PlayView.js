@@ -89,9 +89,6 @@ PlayView.prototype.drawGrid = function ()
             (isRecording ? PUSH_COLOR2_RED_HI : PUSH_COLOR2_GREEN_HI) :
             this.getColor (i, selectedTrack)) : PUSH_COLOR2_BLACK, null, false);
     }
-
-    // Also update the value of the ribbon
-    this.updateRibbonModeValue ();
 };
 
 PlayView.prototype.onGridNote = function (note, velocity)
@@ -145,7 +142,7 @@ PlayView.prototype.onOctaveDown = function (event)
     this.clearPressedKeys ();
     this.scales.decOctave ();
     this.updateNoteMapping ();
-    this.surface.getDisplay ().showNotification ('        ' + this.scales.getRangeText ());
+    displayNotification (this.scales.getRangeText ());
 };
 
 PlayView.prototype.onOctaveUp = function (event)
@@ -155,7 +152,7 @@ PlayView.prototype.onOctaveUp = function (event)
     this.clearPressedKeys ();
     this.scales.incOctave ();
     this.updateNoteMapping ();
-    this.surface.getDisplay ().showNotification ('        ' + this.scales.getRangeText ());
+    displayNotification (this.scales.getRangeText ());
 };
 
 PlayView.prototype.scrollUp = function (event)

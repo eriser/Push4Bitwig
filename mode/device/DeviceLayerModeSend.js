@@ -49,7 +49,7 @@ DeviceLayerModeSend.prototype.onValueKnobTouch = function (index, isTouched)
         var fxTrackBank = this.model.getEffectTrackBank ();
         var name = (fxTrackBank == null ? layer.sends[sendIndex].name : fxTrackBank.getTrack (sendIndex).name);
         if (name.length > 0)
-            displayNotification ("Send " + name + ": " + layer.sends[sendIndex].volumeStr);
+            displayNotification ("Send " + name + ": " + layer.sends[sendIndex].volumeStr, true);
     }
     
     cd.touchLayerOrDrumPadSend (index, sendIndex, isTouched);

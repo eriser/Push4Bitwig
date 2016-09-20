@@ -17,7 +17,7 @@ var VIEW_DRUM4      = 8;
 load ("AbstractViewExtensions.js");
 load ("PlayView.js");
 load ("SessionView.js");
-load ("BaseSequencerView.js");
+load ("AbstractSequencerViewExtensions.js");
 load ("SequencerView.js");
 load ("DrumView.js");
 load ("RaindropsView.js");

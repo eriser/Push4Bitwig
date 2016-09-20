@@ -69,10 +69,10 @@ DeviceLayerMode.prototype.onValueKnobTouch = function (index, isTouched)
         switch (index)
         {
             case 0:
-                displayNotification ("Volume: " + l.volumeStr);
+                displayNotification ("Volume: " + l.volumeStr, true);
                 break;
             case 1:
-                displayNotification ("Pan: " + l.panStr);
+                displayNotification ("Pan: " + l.panStr, true);
                 break;
             default:
                 if (Config.isPush2 && index < 4)
@@ -81,7 +81,7 @@ DeviceLayerMode.prototype.onValueKnobTouch = function (index, isTouched)
                 var fxTrackBank = this.model.getEffectTrackBank ();
                 var name = (fxTrackBank == null ? l.sends[sendIndex].name : fxTrackBank.getTrack (sendIndex).name);
                 if (name.length > 0)
-                    displayNotification ("Send " + name + ": " + l.sends[sendIndex].volumeStr);
+                    displayNotification ("Send " + name + ": " + l.sends[sendIndex].volumeStr, true);
                 break;
         }
     }
