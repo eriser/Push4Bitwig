@@ -56,3 +56,10 @@ DrumView.prototype.usesButton = function (buttonID)
     
     return true;
 };
+
+DrumView.prototype.updateArrowStates = function ()
+{
+    AbstractDrumView.prototype.updateArrowStates.call (this);
+    this.surface.updateButton (PUSH_BUTTON_OCTAVE_UP, PUSH_BUTTON_STATE_ON);
+    this.surface.updateButton (PUSH_BUTTON_OCTAVE_DOWN, PUSH_BUTTON_STATE_ON);
+};

@@ -180,3 +180,10 @@ DrumView4.prototype.clearPressedKeys = function ()
     for (var i = 0; i < 128; i++)
         this.pressedKeys[i] = 0;
 };
+
+DrumView4.prototype.updateArrowStates = function ()
+{
+    AbstractDrumView.prototype.updateArrowStates.call (this);
+    this.surface.updateButton (PUSH_BUTTON_OCTAVE_UP, PUSH_BUTTON_STATE_ON);
+    this.surface.updateButton (PUSH_BUTTON_OCTAVE_DOWN, PUSH_BUTTON_STATE_ON);
+};

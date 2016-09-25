@@ -101,3 +101,16 @@ PrgChangeView.prototype.scrollDown = function (event)
 {
     this.isToggled = true;
 };
+
+PrgChangeView.prototype.updateArrowStates = function ()
+{
+    this.surface.updateButton (PUSH_BUTTON_OCTAVE_UP, PUSH_BUTTON_STATE_OFF);
+    this.surface.updateButton (PUSH_BUTTON_OCTAVE_DOWN, PUSH_BUTTON_STATE_OFF);
+};
+
+PrgChangeView.prototype.updateArrowStates = function ()
+{
+    AbstractView.prototype.updateArrowStates.call (this);
+    this.canScrollUp = this.isToggled;
+    this.canScrollDown = !this.isToggled;
+};

@@ -79,7 +79,7 @@ PlayView.prototype.drawGrid = function ()
 {
     var isKeyboardEnabled = this.model.canSelectedTrackHoldNotes ();
     var isRecording = this.model.hasRecordingState ();
-    
+
     var tb = this.model.getCurrentTrackBank ();
     var selectedTrack = tb.getSelectedTrack ();
     
