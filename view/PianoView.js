@@ -86,3 +86,10 @@ PianoView.prototype.delayedUpdateNoteMapping = function ()
     this.noteMap = this.model.canSelectedTrackHoldNotes () ? this.scales.getPianoMatrix () : this.scales.getEmptyMatrix ();
     this.surface.setKeyTranslationTable (this.noteMap);
 };
+
+PianoView.prototype.updateButtons = function ()
+{
+    var octave = this.scales.getPianoOctave ();
+    this.surface.updateButton (PUSH_BUTTON_OCTAVE_UP, octave < Scales.PIANO_OCTAVE_RANGE ? PUSH_BUTTON_STATE_ON : PUSH_BUTTON_STATE_OFF);
+    this.surface.updateButton (PUSH_BUTTON_OCTAVE_DOWN, octave > -Scales.PIANO_OCTAVE_RANGE ? PUSH_BUTTON_STATE_ON : PUSH_BUTTON_STATE_OFF);
+};

@@ -3,10 +3,7 @@
 // (c) 2014-2016
 // Licensed under LGPLv3 - http://www.gnu.org/licenses/lgpl-3.0.txt
 
-if (Config.isPush2)
-    load ("Colors2.js");
-else
-    load ("Colors.js");
+load ("Colors.js");
 load ("PushMidiInput.js");
 if (Config.isPush2)
     load ("DisplayMessage.js");

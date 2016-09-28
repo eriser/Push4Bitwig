@@ -72,3 +72,9 @@ Grid.prototype.turnOff = function ()
         this.light (i, PUSH_COLOR_BLACK, null, false);
     this.flush ();
 };
+
+// Plug for grids not sending notes in the range of 36-100
+Grid.prototype.translateToGrid = function (note)
+{
+    return note;
+};
