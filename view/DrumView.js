@@ -63,3 +63,17 @@ DrumView.prototype.updateArrowStates = function ()
     this.surface.updateButton (PUSH_BUTTON_OCTAVE_UP, PUSH_BUTTON_STATE_ON);
     this.surface.updateButton (PUSH_BUTTON_OCTAVE_DOWN, PUSH_BUTTON_STATE_ON);
 };
+
+DrumView.prototype.onSolo = function (event)
+{
+    AbstractDrumView.prototype.onSolo.call (this, event);
+    if (event.isUp ())
+        this.updateNoteMapping ();
+};
+
+DrumView.prototype.onMute = function (event)
+{
+    AbstractDrumView.prototype.onSolo.call (this, event);
+    if (event.isUp ())
+        this.updateNoteMapping ();
+};
