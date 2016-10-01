@@ -192,6 +192,7 @@ function Controller ()
     this.surface.addView (VIEW_SEQUENCER, new SequencerView (this.model));
     this.surface.addView (VIEW_DRUM, new DrumView (this.model));
     this.surface.addView (VIEW_DRUM4, new DrumView4 (this.model));
+    this.surface.addView (VIEW_DRUM8, new DrumView8 (this.model));
     this.surface.addView (VIEW_RAINDROPS, new RaindropsView (this.model));
     this.surface.addView (VIEW_PIANO, new PianoView (this.model));
     this.surface.addView (VIEW_PRG_CHANGE, new PrgChangeView (this.model));

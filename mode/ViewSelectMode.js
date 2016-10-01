@@ -9,8 +9,8 @@ ViewSelectMode.VIEWS =
     { id: VIEW_PIANO, name: 'Piano' },
     { id: VIEW_SEQUENCER, name: 'Sequencer' },
     { id: VIEW_RAINDROPS, name: 'Raindrop' },
-    { id: VIEW_DRUM, name: 'Drum 1' },
-    { id: VIEW_DRUM4, name: 'Drum 4' },
+    { id: VIEW_DRUM, name: 'Drum' },
+    { id: null, name: '' },
     { id: VIEW_CLIP, name: 'Clip' },
     { id: VIEW_PRG_CHANGE, name: 'PrgChnge' }
 ];
@@ -44,7 +44,7 @@ ViewSelectMode.prototype.updateDisplay = function ()
             var view = ViewSelectMode.VIEWS[i];
             message.addOptionElement ("", "", false, i == 0 ? "Track input" : "",
                                       view.id == null ? "" : view.name, 
-                                      view.id != null && this.surface.isActiveView (view.id));
+                                      view.id != null && this.isActiveView (view.id));
         }
         message.send ();
     }
@@ -52,7 +52,7 @@ ViewSelectMode.prototype.updateDisplay = function ()
     {
         d.clear ().setBlock (1, 0, 'Track input:');
         for (var i = 0; i < ViewSelectMode.VIEWS.length; i++)
-            d.setCell (3, i, (ViewSelectMode.VIEWS[i].id != null && this.surface.isActiveView (ViewSelectMode.VIEWS[i].id) ? Display.RIGHT_ARROW : '') + ViewSelectMode.VIEWS[i].name);
+            d.setCell (3, i, (ViewSelectMode.VIEWS[i].id != null && this.isActiveView (ViewSelectMode.VIEWS[i].id) ? Display.RIGHT_ARROW : '') + ViewSelectMode.VIEWS[i].name);
         d.allDone ();
     }
 };
@@ -60,5 +60,16 @@ ViewSelectMode.prototype.updateDisplay = function ()
 ViewSelectMode.prototype.updateFirstRow = function ()
 {
     for (var i = 0; i < 8; i++)
-        this.surface.updateButton (20 + i, ViewSelectMode.VIEWS[i].id == null ? AbstractMode.BUTTON_COLOR_OFF : (this.surface.isActiveView (ViewSelectMode.VIEWS[i].id) ? AbstractMode.BUTTON_COLOR_HI : AbstractMode.BUTTON_COLOR_ON));
+    {
+        this.surface.updateButton (20 + i, ViewSelectMode.VIEWS[i].id == null ? AbstractMode.BUTTON_COLOR_OFF : 
+            (this.isActiveView (ViewSelectMode.VIEWS[i].id) ? AbstractMode.BUTTON_COLOR_HI : AbstractMode.BUTTON_COLOR_ON));
+    }
+};
+
+ViewSelectMode.prototype.isActiveView = function (viewId)
+{
+    var isActive = this.surface.isActiveView (viewId);
+    if (isActive)
+        return true;
+    return viewId == VIEW_DRUM && (this.surface.isActiveView (VIEW_DRUM4) || this.surface.isActiveView (VIEW_DRUM8))
 };
