@@ -84,6 +84,7 @@ PlayView.prototype.onChannelAftertouch = function (value)
 
 PlayView.prototype.updateButtons = function ()
 {
+    AbstractPlayView.prototype.updateButtons.call (this);
     var octave = this.scales.getOctave ();
     this.surface.updateButton (PUSH_BUTTON_OCTAVE_UP, octave < Scales.OCTAVE_RANGE ? PUSH_BUTTON_STATE_ON : PUSH_BUTTON_STATE_OFF);
     this.surface.updateButton (PUSH_BUTTON_OCTAVE_DOWN, octave > -Scales.OCTAVE_RANGE ? PUSH_BUTTON_STATE_ON : PUSH_BUTTON_STATE_OFF);

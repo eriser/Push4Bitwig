@@ -4,7 +4,7 @@
 // Licensed under LGPLv3 - http://www.gnu.org/licenses/lgpl-3.0.txt
 
 RibbonMode.MIDI_CCS        = [ 1, 11, 7, 64 ];
-RibbonMode.CC_QUICK_SELECT = [ "", "", "", "Modulation", "Expression", "Volume", "Sustain" ];
+RibbonMode.CC_QUICK_SELECT = [ "Modulation", "Expression", "Volume", "Sustain", "", "", "" ];
 RibbonMode.FUNCTION        = [ "Pitchbend", "CC", "CC/Pitch", "Pitch/CC", "Fader", "", "" ];
 RibbonMode.FUNCTION_IDS    = [ Config.RIBBON_MODE_PITCH, Config.RIBBON_MODE_CC, Config.RIBBON_MODE_CC_PB, Config.RIBBON_MODE_PB_CC, Config.RIBBON_MODE_FADER ];
 
@@ -23,36 +23,24 @@ RibbonMode.prototype.onValueKnobTouch = function (index, isTouched)
 
 RibbonMode.prototype.onValueKnob = function (index, value)
 {
-    if (Config.isPush2 && index == 7 || !Config.isPush2 && index == 6)
+    if (index == 7)
         Config.setRibbonModeCC (changeValue (value, Config.ribbonModeCCVal, 1, 128));
 };
 
 RibbonMode.prototype.onFirstRow = function (index)
 {
-    if (index <= 4)
+    if (index < 5)
         Config.setRibbonMode (index);
-    else if (!Config.isPush2 && index > 5)
-        Config.setRibbonModeCC (RibbonMode.MIDI_CCS[index - 6]);
     else
         this.surface.restoreMode ();
 };
 
 RibbonMode.prototype.onSecondRow = function (index)
 {
-    if (Config.isPush2)
-    {
-        if (index > 2 && index < 7)
-            Config.setRibbonModeCC (RibbonMode.MIDI_CCS[index - 3]);
-        else
-            this.surface.restoreMode ();
-    }
+    if (index < 4)
+        Config.setRibbonModeCC (RibbonMode.MIDI_CCS[index]);
     else
-    {
-        if (index > 5)
-            Config.setRibbonModeCC (RibbonMode.MIDI_CCS[index - 4]);
-        else
-            this.surface.restoreMode ();
-    }
+        this.surface.restoreMode ();
 };
 
 RibbonMode.prototype.updateDisplay = function ()
@@ -82,57 +70,36 @@ RibbonMode.prototype.updateDisplay = function ()
         message.addBoolean (this.isKnobTouched[5]);
         
         message.send ();
+        return;
     }
-    else
-    {
-        d.clear ()
-         .setCell (0, 6, 'Midi CC')
-         .setCell (1, 6, Config.ribbonModeCCVal.toString ())
-         .setCell (2, 6, 'Modulatn')
-         .setCell (2, 7, 'Expressn')
-         .setCell (3, 0, (Config.ribbonMode == Config.RIBBON_MODE_PITCH ? Display.RIGHT_ARROW : '') + 'Pitchbd')
-         .setCell (3, 1, (Config.ribbonMode == Config.RIBBON_MODE_CC ? Display.RIGHT_ARROW : '') + 'CC')
-         .setCell (3, 2, (Config.ribbonMode == Config.RIBBON_MODE_CC_PB ? Display.RIGHT_ARROW : '') + 'CC/Pitch')
-         .setCell (3, 3, (Config.ribbonMode == Config.RIBBON_MODE_PB_CC ? Display.RIGHT_ARROW : '') + 'Pitch/CC')
-         .setCell (3, 4, (Config.ribbonMode == Config.RIBBON_MODE_FADER ? Display.RIGHT_ARROW : '') + 'Fader')
-         .setCell (3, 6, 'Volume')
-         .setCell (3, 7, 'Sustain')
-         .allDone ();
-    }
+
+    d.clear ()
+     .setCell (0, 0, 'Modulatn')
+     .setCell (0, 1, 'Expressn')
+     .setCell (0, 2, 'Volume')
+     .setCell (0, 3, 'Sustain')
+     .setCell (0, 7, 'Midi CC')
+     .setCell (1, 7, Config.ribbonModeCCVal.toString ())
+     .setCell (3, 0, (Config.ribbonMode == Config.RIBBON_MODE_PITCH ? Display.RIGHT_ARROW : '') + 'Pitchbd')
+     .setCell (3, 1, (Config.ribbonMode == Config.RIBBON_MODE_CC ? Display.RIGHT_ARROW : '') + 'CC')
+     .setCell (3, 2, (Config.ribbonMode == Config.RIBBON_MODE_CC_PB ? Display.RIGHT_ARROW : '') + 'CC/Pitch')
+     .setCell (3, 3, (Config.ribbonMode == Config.RIBBON_MODE_PB_CC ? Display.RIGHT_ARROW : '') + 'Pitch/CC')
+     .setCell (3, 4, (Config.ribbonMode == Config.RIBBON_MODE_FADER ? Display.RIGHT_ARROW : '') + 'Fader')
+     .allDone ();
 };
 
 RibbonMode.prototype.updateFirstRow = function ()
 {
     for (var i = 0; i < 5; i++)
         this.surface.updateButton (20 + i, Config.ribbonMode == Config.RIBBON_MODE_PITCH + i ? AbstractMode.BUTTON_COLOR_HI : AbstractMode.BUTTON_COLOR_ON);
-    if (Config.isPush2)
-    {
-        for (var i = 5; i < 8; i++)
-            this.surface.updateButton (20 + i, AbstractMode.BUTTON_COLOR_OFF);
-    }
-    else
-    {
-        this.surface.updateButton (25, AbstractMode.BUTTON_COLOR_OFF);
-        for (var i = 6; i < 8; i++)
-            this.surface.updateButton (20 + i, AbstractMode.BUTTON_COLOR_ON);
-    }
+    for (var i = 5; i < 8; i++)
+        this.surface.updateButton (20 + i, AbstractMode.BUTTON_COLOR_OFF);
 };
 
 RibbonMode.prototype.updateSecondRow = function ()
 {
-    if (Config.isPush2)
-    {
-        for (var i = 0; i < 2; i++)
-            this.surface.updateButton (102 + i, AbstractMode.BUTTON_COLOR_OFF);
-        for (var i = 3; i < 7; i++)
-            this.surface.updateButton (102 + i, AbstractMode.BUTTON_COLOR2_ON);
-        this.surface.updateButton (109, AbstractMode.BUTTON_COLOR_OFF);
-    }
-    else
-    {
-        for (var i = 0; i < 6; i++)
-            this.surface.updateButton (102 + i, AbstractMode.BUTTON_COLOR_OFF);
-        for (var i = 6; i < 8; i++)
-            this.surface.updateButton (102 + i, AbstractMode.BUTTON_COLOR2_ON);
-    }
+    for (var i = 0; i < 4; i++)
+        this.surface.updateButton (102 + i, Config.isPush2 ? AbstractMode.BUTTON_COLOR_ON : AbstractMode.BUTTON_COLOR2_ON);
+    for (var i = 5; i < 7; i++)
+        this.surface.updateButton (102 + i, AbstractMode.BUTTON_COLOR_OFF);
 };
