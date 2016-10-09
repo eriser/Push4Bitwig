@@ -7,28 +7,44 @@ function Controller ()
 {
     Config.init ();
 
-    var output = new MidiOutput ();
-    var input = new PushMidiInput ();
-
     this.scales = new Scales (36, 100, 8, 8);
+    this.createModel ();
+    this.createSurface ();
+    this.createModes ();
+    this.createListeners ();
+    this.createViews ();
+    this.startup ();
+}
+Controller.prototype = new AbstractController ();
+
+Controller.prototype.createModel = function ()
+{
     this.model = new Model (PUSH_KNOB1, this.scales,
-                            8,                        // The number of track to monitor (per track bank)
-                            8,                        // The number of scenes to monitor (per scene bank)
-                            Config.isPush2 ? 8 : 6,   // The number of sends to monitor
-                            6,                        // The number of filters columns in the browser to monitor
-                            Config.isPush2 ? 48 : 16, // The number of entries in one filter column to monitor
-                            Config.isPush2 ? 48 : 16, // The number of search results in the browser to monitor
-                            false);                   // Don't navigate groups, all tracks are flat
-    
+            8,                        // The number of track to monitor (per track bank)
+            8,                        // The number of scenes to monitor (per scene bank)
+            Config.isPush2 ? 8 : 6,   // The number of sends to monitor
+            6,                        // The number of filters columns in the browser to monitor
+            Config.isPush2 ? 48 : 16, // The number of entries in one filter column to monitor
+            Config.isPush2 ? 48 : 16, // The number of search results in the browser to monitor
+            false);                   // Don't navigate groups, all tracks are flat
+
     this.model.getTrackBank ().addTrackSelectionListener (doObject (this, Controller.prototype.handleTrackChange));
     this.model.getMasterTrack ().addTrackSelectionListener (doObject (this, function (isSelected)
     {
         this.surface.setPendingMode (isSelected ? MODE_MASTER : this.surface.getPreviousMode ());
     }));
-    
+};
+
+Controller.prototype.createSurface = function ()
+{
+    var output = new MidiOutput ();
+    var input = new MidiInput ();
     this.surface = new Push (output, input);
     this.surface.setDefaultMode (MODE_TRACK);
+};
 
+Controller.prototype.createModes = function ()
+{
     this.surface.addMode (MODE_VOLUME, new VolumeMode (this.model));
     this.surface.addMode (MODE_PAN, new PanMode (this.model));
     this.surface.addMode (MODE_CROSSFADER, new CrossfaderMode (this.model));
@@ -88,7 +104,15 @@ function Controller ()
         this.surface.addMode (MODE_DEVICE_LAYER_SEND8, modeLayerSend);
         this.surface.addMode (MODE_SETUP, new SetupMode (this.model));
         this.surface.addMode (MODE_INFO, new InfoMode (this.model));
-        
+    }
+    else
+        this.surface.addMode (MODE_CONFIGURATION, new ConfigurationMode (this.model));
+};
+
+Controller.prototype.createListeners = function ()
+{
+    if (Config.isPush2)
+    {
         Config.addPropertyListener (Config.DISPLAY_BRIGHTNESS, doObject (this, function ()
         {
             this.surface.sendDisplayBrightness ();
@@ -115,8 +139,6 @@ function Controller ()
     }
     else
     {
-        this.surface.addMode (MODE_CONFIGURATION, new ConfigurationMode (this.model));
-        
         Config.addPropertyListener (Config.VELOCITY_CURVE, doObject (this, function ()
         {
             this.surface.sendPadSensitivity ();
@@ -186,7 +208,10 @@ function Controller ()
         var view = this.surface.getView (VIEW_SESSION);
         view.flip = Config.flipSession;
     }));
-    
+};
+
+Controller.prototype.createViews = function ()
+{
     this.surface.addView (VIEW_PLAY, new PlayView (this.model));
     this.surface.addView (VIEW_SESSION, new SessionView (this.model));
     this.surface.addView (VIEW_SEQUENCER, new SequencerView (this.model));
@@ -197,14 +222,16 @@ function Controller ()
     this.surface.addView (VIEW_PIANO, new PianoView (this.model));
     this.surface.addView (VIEW_PRG_CHANGE, new PrgChangeView (this.model));
     this.surface.addView (VIEW_CLIP, new ClipView (this.model));
-    
+};
+
+Controller.prototype.startup = function ()
+{
     scheduleTask (doObject (this, function ()
     {
         this.surface.setActiveView (VIEW_PLAY);
         this.surface.setActiveMode (MODE_TRACK);
     }), null, 100);
-}
-Controller.prototype = new AbstractController ();
+};
 
 Controller.prototype.flush = function ()
 {

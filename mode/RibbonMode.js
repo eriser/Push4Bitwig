@@ -100,6 +100,6 @@ RibbonMode.prototype.updateSecondRow = function ()
 {
     for (var i = 0; i < 4; i++)
         this.surface.updateButton (102 + i, Config.isPush2 ? AbstractMode.BUTTON_COLOR_ON : AbstractMode.BUTTON_COLOR2_ON);
-    for (var i = 5; i < 7; i++)
+    for (var i = 4; i < 8; i++)
         this.surface.updateButton (102 + i, AbstractMode.BUTTON_COLOR_OFF);
 };
