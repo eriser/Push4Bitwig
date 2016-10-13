@@ -186,34 +186,35 @@ AbstractView.prototype.onAutomation = function (event)
         this.surface.setButtonConsumed (this.surface.deleteButtonId);
         if (event.isDown ())
             this.model.getTransport ().resetAutomationOverrides ();
+        return;
     }
-    else if (this.surface.isShiftPressed ())
+    
+    if (this.surface.isShiftPressed ())
     {
         if (event.isDown ())
             this.model.getTransport ().toggleWriteClipLauncherAutomation ();
+        return;
     }
-    else
+
+    switch (event.getState ())
     {
-        switch (event.getState ())
-        {
-            case ButtonEvent.DOWN:
-                this.quitAutomationMode = false;
-                break;
-            case ButtonEvent.LONG:
-                this.quitAutomationMode = true;
-                this.surface.setPendingMode (MODE_AUTOMATION);
-                break;
-            case ButtonEvent.UP:
-                if (this.quitAutomationMode)
-                    this.surface.restoreMode ();
-                else
-                {
-                    var selectedTrack = this.model.getCurrentTrackBank ().getSelectedTrack ();
-                    if (selectedTrack != null)
-                        this.model.getTransport ().toggleWriteArrangerAutomation ();
-                }
-                break;
-        }
+        case ButtonEvent.DOWN:
+            this.quitAutomationMode = false;
+            break;
+        case ButtonEvent.LONG:
+            this.quitAutomationMode = true;
+            this.surface.setPendingMode (MODE_AUTOMATION);
+            break;
+        case ButtonEvent.UP:
+            if (this.quitAutomationMode)
+                this.surface.restoreMode ();
+            else
+            {
+                var selectedTrack = this.model.getCurrentTrackBank ().getSelectedTrack ();
+                if (selectedTrack != null)
+                    this.model.getTransport ().toggleWriteArrangerAutomation ();
+            }
+            break;
     }
 };
 
@@ -229,13 +230,19 @@ AbstractView.prototype.onFixedLength = function (event)
 
 AbstractView.prototype.onQuantize = function (event)
 {
-    if (!event.isDown ())
-        return;
-
-    if (this.surface.isShiftPressed ())
+    if (event.isLong () || (event.isDown () && this.surface.isShiftPressed ()))
+    {
         this.surface.setPendingMode (MODE_GROOVE);
-    else
-        this.model.getApplication ().quantize ();
+        this.surface.setButtonConsumed (PUSH_BUTTON_QUANTIZE);
+        return;
+    }
+    
+    if (event.isUp ())
+    {
+        // We can use any cursor clip, e.g. the one of the drum view
+        var view = this.surface.getView (VIEW_DRUM);
+        view.clip.quantize (Config.quantizeAmount / 100);
+    }
 };
 
 AbstractView.prototype.onDouble = function (event)
@@ -930,7 +937,6 @@ AbstractView.prototype.onConvert = function (event)
 {
     if (!event.isDown ())
         return;
-
     
     var application = this.model.getApplication ();
     var action = application.getAction (this.surface.isShiftPressed () ? "slice_to_multi_sampler_track" : "slice_to_drum_track");

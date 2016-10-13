@@ -12,11 +12,18 @@ GrooveMode.prototype = new BaseMode ();
 
 GrooveMode.prototype.onValueKnob = function (index, value)
 {
-    if (index >= GrooveValue.Kind.values ().length)
+    if (index == 0)
+    {
+        Config.changeQuantizeAmount (value);
         return;
-    var v = this.model.getGroove ().getValue (index);
-    v.value = this.surface.changeValue (value, v.value);
-    this.model.getGroove ().getRangedValue (index).set (v.value, Config.maxParameterValue);
+    }
+    
+    if (index > 1 && index < 7)
+    {
+        var v = this.model.getGroove ().getValue (index - 2);
+        v.value = this.surface.changeValue (value, v.value);
+        this.model.getGroove ().getRangedValue (index - 2).set (v.value, Config.maxParameterValue);
+    }
 };
 
 GrooveMode.prototype.onFirstRow = function (index)
@@ -37,6 +44,21 @@ GrooveMode.prototype.updateDisplay = function ()
     if (Config.isPush2)
     {
         var message = d.createMessage (DisplayMessage.DISPLAY_COMMAND_GRID);
+        message.addByte (DisplayMessage.GRID_ELEMENT_PARAMETERS);
+        message.addString ("");
+        message.addBoolean (false);
+        message.addString ("");
+        message.addString ("");
+        message.addColor (0);
+        message.addBoolean (false);
+        
+        message.addString ("Quant Amnt");
+        message.addInteger (Config.quantizeAmount * 1023 / 100);
+        message.addString (Config.quantizeAmount + "%");
+        message.addBoolean (this.isKnobTouched[0]);
+
+        message.addOptionElement ("     Groove", "", false, "", "", false);
+        
         var length = GrooveValue.Kind.values ().length;
         for (var i = 0; i < length; i++)
         {
@@ -55,26 +77,23 @@ GrooveMode.prototype.updateDisplay = function ()
             message.addBoolean (this.isKnobTouched[i]);
         }
         
-        for (var i = length; i < 8; i++)
-        {
-            message.addOptionElement ("", "", false, i == 6 ? "Global Groove" : "", 
-                                      i == 7 ? (groove.isEnabled () ? 'Enabled' : 'Disabled') : "", 
-                                      i == 7 ? groove.isEnabled () : false);
-        }
-        
+        message.addOptionElement ("", "", false, "    Global", groove.isEnabled () ? 'Enabled' : 'Disabled', groove.isEnabled ());
         message.send ();
     }
     else
     {
         d.clear ();
+        d.setCell (0, 0, "Quant Amnt", Display.FORMAT_RAW)
+         .setCell (1, 0, Config.quantizeAmount + "%")
+         .setCell (2, 0, Config.quantizeAmount * 1023 / 100, Display.FORMAT_VALUE);
         for (var i = 0; i < GrooveValue.Kind.values ().length; i++)
         {
             var v = groove.getValue (i);
-            d.setCell (0, i, v.name, Display.FORMAT_RAW)
-             .setCell (1, i, v.valueString, Display.FORMAT_RAW)
-             .setCell (2, i, v.value, Display.FORMAT_VALUE);
+            d.setCell (0, 2 + i, v.name, Display.FORMAT_RAW)
+             .setCell (1, 2 + i, v.valueString, Display.FORMAT_RAW)
+             .setCell (2, 2 + i, v.value, Display.FORMAT_VALUE);
         }
-        d.setBlock (2, 3, "Global Groove:")
+        d.setCell (2, 7, "Global:")
          .setCell (3, 7, groove.isEnabled () ? 'Enabled' : 'Disabled')
          .allDone ();
     }

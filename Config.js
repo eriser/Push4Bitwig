@@ -25,22 +25,20 @@ Config.isMuteSoloLocked   = false;
 // Editable configurations
 // ------------------------------
 
-Config.ACTIVATE_FIXED_ACCENT           = 10;
-Config.FIXED_ACCENT_VALUE              = 11;
-Config.RIBBON_MODE                     = 12;
-Config.RIBBON_MODE_CC_VAL              = 13;
-Config.VELOCITY_CURVE                  = 14;
-Config.PAD_THRESHOLD                   = 15;
-Config.DEFAULT_DEVICE_MODE             = 16;
-Config.FOOTSWITCH_2                    = 17;
-Config.SEND_PORT                       = 18;
-Config.DISPLAY_BRIGHTNESS              = 19;
-Config.LED_BRIGHTNESS                  = 20;
-Config.PAD_SENSITIVITY                 = 21;
-Config.PAD_GAIN                        = 22;
-Config.PAD_DYNAMICS                    = 23;
-Config.AUTO_SELECT_DRUM                = 24;
-Config.STOP_AUTOMATION_ON_KNOB_RELEASE = 25;
+Config.RIBBON_MODE                     = 20;
+Config.RIBBON_MODE_CC_VAL              = 21;
+Config.VELOCITY_CURVE                  = 22;
+Config.PAD_THRESHOLD                   = 23;
+Config.DEFAULT_DEVICE_MODE             = 24;
+Config.FOOTSWITCH_2                    = 25;
+Config.SEND_PORT                       = 26;
+Config.DISPLAY_BRIGHTNESS              = 27;
+Config.LED_BRIGHTNESS                  = 28;
+Config.PAD_SENSITIVITY                 = 29;
+Config.PAD_GAIN                        = 30;
+Config.PAD_DYNAMICS                    = 31;
+Config.AUTO_SELECT_DRUM                = 32;
+Config.STOP_AUTOMATION_ON_KNOB_RELEASE = 33;
 
 Config.RIBBON_MODE_PITCH = 0;
 Config.RIBBON_MODE_CC    = 1;
@@ -60,8 +58,6 @@ Config.FOOTSWITCH_2_CLIP_BASED_LOOPER   = 7;
 Config.AUTO_SELECT_DRUM_OFF      = 0;
 Config.AUTO_SELECT_DRUM_CHANNEL  = 1;
 
-Config.accentActive                = false;                       // Accent button active
-Config.fixedAccentValue            = 127;                         // Fixed velocity value for accent
 Config.ribbonMode                  = Config.RIBBON_MODE_PITCH;    // What does the ribbon send?
 Config.ribbonModeCCVal             = 1;
 Config.defaultDeviceMode           = 20; /*MODE_DEVICE_PARAMS;*/
@@ -119,21 +115,11 @@ Config.init = function ()
     }
 
     ///////////////////////////
-    // Accent
+    // Play and Sequence
 
-    Config.accentActiveSetting = prefs.getEnumSetting ("Activate Fixed Accent", "Fixed Accent", [ "Off", "On" ], "Off");
-    Config.accentActiveSetting.addValueObserver (function (value)
-    {
-        Config.accentActive = value == "On";
-        Config.notifyListeners (Config.ACTIVATE_FIXED_ACCENT);
-    });
-    
-    Config.accentValueSetting = prefs.getNumberSetting ("Fixed Accent Value", "Fixed Accent", 1, 127, 1, "", 127);
-    Config.accentValueSetting.addRawValueObserver (function (value)
-    {
-        Config.fixedAccentValue = value;
-        Config.notifyListeners (Config.FIXED_ACCENT_VALUE);
-    });
+    Config.activateAccentActiveSetting (prefs);
+    Config.activateAccentValueSetting (prefs);
+    Config.activateQuantizeAmountSetting (prefs);
     
     ///////////////////////////
     // Ribbon
@@ -297,16 +283,6 @@ Config.init = function ()
     }
     
     Config.activateConvertAftertouchSetting (prefs);
-};
-
-Config.setAccentEnabled = function (enabled)
-{
-    Config.accentActiveSetting.set (enabled ? "On" : "Off");
-};
-
-Config.setAccentValue = function (value)
-{
-    Config.accentValueSetting.setRaw (value);
 };
 
 Config.setRibbonMode = function (mode)
