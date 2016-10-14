@@ -29,3 +29,27 @@ SequencerView.prototype.updateArrowStates = function ()
     this.surface.updateButton (PUSH_BUTTON_OCTAVE_UP, this.canScrollUp ? PUSH_BUTTON_STATE_ON : PUSH_BUTTON_STATE_OFF);
     this.surface.updateButton (PUSH_BUTTON_OCTAVE_DOWN, this.canScrollDown ? PUSH_BUTTON_STATE_ON : PUSH_BUTTON_STATE_OFF);
 };
+
+SequencerView.prototype.onOctaveDown = function (event)
+{
+    if (!this.surface.isShiftPressed ())
+    {
+        AbstractNoteSequencerView.prototype.onOctaveDown.call (this, event);
+        return;
+    }
+    
+    if (event.isDown ())
+        this.clip.transpose (-1);
+};
+
+SequencerView.prototype.onOctaveUp = function (event)
+{
+    if (!this.surface.isShiftPressed ())
+    {
+        AbstractNoteSequencerView.prototype.onOctaveUp.call (this, event);
+        return;
+    }
+    
+    if (event.isDown ())
+        this.clip.transpose (1);
+};

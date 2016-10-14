@@ -237,3 +237,27 @@ SessionView.prototype.sceneOrSecondRowButtonPressed = function (index, isScene)
         }
     }
 };
+
+SessionView.prototype.onOctaveDown = function (event)
+{
+    if (!this.surface.isShiftPressed ())
+    {
+        AbstractSessionView.prototype.onOctaveDown.call (this, event);
+        return;
+    }
+    
+    if (event.isDown ())
+        this.surface.getView (VIEW_DRUM).clip.transpose (-1);
+};
+
+SessionView.prototype.onOctaveUp = function (event)
+{
+    if (!this.surface.isShiftPressed ())
+    {
+        AbstractSessionView.prototype.onOctaveUp.call (this, event);
+        return;
+    }
+    
+    if (event.isDown ())
+        this.surface.getView (VIEW_DRUM).clip.transpose (1);
+};
