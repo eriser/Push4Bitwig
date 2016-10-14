@@ -309,6 +309,7 @@ AbstractSequencerView.COLOR_STEP_HILITE_NO_CONTENT = PUSH_COLOR2_GREEN_LO;
 AbstractSequencerView.COLOR_STEP_HILITE_CONTENT    = PUSH_COLOR2_GREEN_HI;
 AbstractSequencerView.COLOR_NO_CONTENT             = PUSH_COLOR2_BLACK;
 AbstractSequencerView.COLOR_CONTENT                = PUSH_COLOR2_BLUE_HI;
+AbstractSequencerView.COLOR_CONTENT_CONT           = PUSH_COLOR2_BLUE_LO;
 AbstractSequencerView.COLOR_MEASURE                = PUSH_COLOR2_WHITE;
 AbstractSequencerView.COLOR_ACTIVE_MEASURE         = PUSH_COLOR2_GREEN;
 

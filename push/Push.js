@@ -324,8 +324,15 @@ function Push (output, input)
 {
     AbstractControlSurface.call (this, output, input, PUSH_BUTTONS_ALL);
     
+    this.gridNoteConsumed   = initArray (false, 127);
+    this.gridNoteStates     = [];
+    this.gridNoteVelocities = [];
     for (var i = 36; i < 100; i++)
+    {
         this.gridNotes.push (i);
+        this.gridNoteStates[i] = ButtonEvent.UP;
+        this.gridNoteVelocities[i] = 0;
+    }
     
     this.selectButtonId = PUSH_BUTTON_SELECT;
     this.shiftButtonId  = PUSH_BUTTON_SHIFT;
@@ -1011,4 +1018,43 @@ Push.prototype.handleSysEx = function (data)
         this.serialNumber  = 0;
         this.boardRevision = 0;        
     }
+};
+
+Push.prototype.handleGridNote = function (note, velocity)
+{
+    this.gridNoteStates[note] = velocity > 0 ? ButtonEvent.DOWN : ButtonEvent.UP;
+    this.gridNoteVelocities[note] = velocity;
+    if (this.gridNoteStates[note] == ButtonEvent.DOWN)
+    {
+        scheduleTask (doObject (this, function (note)
+        {
+            this.checkGridNoteState (note);
+        }), [ note ], AbstractControlSurface.buttonStateInterval);
+    }
+
+    // If consumed flag is set ignore the UP event
+    if (this.gridNoteStates[note] == ButtonEvent.UP && this.gridNoteConsumed[note])
+    {
+        this.gridNoteConsumed[note] = false;
+        return;
+    }
+
+    AbstractControlSurface.prototype.handleGridNote.call (this, note, velocity);
+};
+
+Push.prototype.checkGridNoteState = function (note)
+{
+    if (this.gridNoteStates[note] != ButtonEvent.DOWN)
+        return;
+
+    this.gridNoteStates[note] = ButtonEvent.LONG;
+    
+    var view = this.getActiveView ();
+    if (view != null)
+        view.onGridNoteLongPress (note);
+};
+
+Push.prototype.setGridNoteConsumed = function (note)
+{
+    this.gridNoteConsumed[note] = true;
 };

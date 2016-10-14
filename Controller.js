@@ -62,6 +62,7 @@ Controller.prototype.createModes = function ()
 
     this.surface.addMode (MODE_TRACK, new TrackMode (this.model));
     this.surface.addMode (MODE_CLIP, new ClipMode (this.model));
+    this.surface.addMode (MODE_NOTE, new NoteMode (this.model));
     this.surface.addMode (MODE_FRAME, new FrameMode (this.model));
     this.surface.addMode (MODE_SCALES, new ScalesMode (this.model));
     this.surface.addMode (MODE_SCALE_LAYOUT, new ScaleLayoutMode (this.model));

@@ -53,3 +53,42 @@ SequencerView.prototype.onOctaveUp = function (event)
     if (event.isDown ())
         this.clip.transpose (1);
 };
+
+SequencerView.prototype.onGridNoteLongPress = function (note)
+{
+    if (!this.model.canSelectedTrackHoldNotes ())
+        return;
+
+    this.surface.setGridNoteConsumed (note);
+    
+    var index = note - 36;
+    var y = Math.floor (index / 8);
+    if (y >= AbstractNoteSequencerView.NUM_SEQUENCER_ROWS)
+        return;
+
+    // TODO setStep makes Bitwig hang
+    //    var x = index % 8;
+    //    var state = this.clip.getStep (x, this.noteMap[y]);
+    //    var noteMode = this.surface.getMode (MODE_NOTE);
+    //    noteMode.setValues (this.clip, x, note, state == 2 ? 1.0 : 0, 127);
+    //    this.surface.setPendingMode (MODE_NOTE);
+};
+
+AbstractNoteSequencerView.prototype.onGridNote = function (note, velocity)
+{
+    if (!this.model.canSelectedTrackHoldNotes ())
+        return;
+    var index = note - 36;
+    var x = index % 8;
+    var y = Math.floor (index / 8);
+
+    if (y < AbstractNoteSequencerView.NUM_SEQUENCER_ROWS)
+    {
+        // Toggle the note on up, so we can intercept the long presses
+        if (velocity == 0)
+            this.clip.toggleStep (x, this.noteMap[y], Config.accentActive ? Config.fixedAccentValue : this.surface.gridNoteVelocities[note]);
+        return;
+    }
+    
+    AbstractNoteSequencerView.prototype.onGridNote.call (this, note, velocity);
+};

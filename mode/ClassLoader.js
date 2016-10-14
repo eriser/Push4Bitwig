@@ -12,6 +12,7 @@ var MODE_GROOVE              = 4;
 var MODE_ACCENT              = 5;
 var MODE_CROSSFADER          = 6;
 var MODE_CLIP                = 7;
+var MODE_NOTE                = 8;
 
 var MODE_PAN                 = 10;
 var MODE_SEND1               = 11;
@@ -79,6 +80,7 @@ load ("AutomationMode.js");
 load ("FixedMode.js");
 load ("FrameMode.js");
 load ("GrooveMode.js");
+load ("NoteMode.js");
 load ("RibbonMode.js");
 load ("ScalesMode.js");
 load ("ScaleLayoutMode.js");

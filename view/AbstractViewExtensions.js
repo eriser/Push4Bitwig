@@ -1363,3 +1363,6 @@ AbstractView.prototype.setViewToPreferredOfActiveTrack = function ()
     if (!this.surface.isActiveView (viewID))
         this.surface.setActiveView (viewID);
 };
+
+// Overwrite for long press actions on grid pads
+AbstractView.prototype.onGridNoteLongPress = function (note) {};
