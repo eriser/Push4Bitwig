@@ -1023,7 +1023,8 @@ Push.prototype.handleSysEx = function (data)
 Push.prototype.handleGridNote = function (note, velocity)
 {
     this.gridNoteStates[note] = velocity > 0 ? ButtonEvent.DOWN : ButtonEvent.UP;
-    this.gridNoteVelocities[note] = velocity;
+    if (velocity > 0)
+        this.gridNoteVelocities[note] = velocity;
     if (this.gridNoteStates[note] == ButtonEvent.DOWN)
     {
         scheduleTask (doObject (this, function (note)

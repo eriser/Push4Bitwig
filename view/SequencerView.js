@@ -32,26 +32,40 @@ SequencerView.prototype.updateArrowStates = function ()
 
 SequencerView.prototype.onOctaveDown = function (event)
 {
-    if (!this.surface.isShiftPressed ())
+    if (this.surface.isShiftPressed ())
     {
-        AbstractNoteSequencerView.prototype.onOctaveDown.call (this, event);
+        if (event.isDown ())
+            this.clip.transpose (-1);
+        return;
+    }
+
+    if (this.surface.isSelectPressed ())
+    {
+        if (event.isDown ())
+            this.clip.transpose (-12);
         return;
     }
     
-    if (event.isDown ())
-        this.clip.transpose (-1);
+    AbstractNoteSequencerView.prototype.onOctaveDown.call (this, event);
 };
 
 SequencerView.prototype.onOctaveUp = function (event)
 {
-    if (!this.surface.isShiftPressed ())
+    if (this.surface.isShiftPressed ())
     {
-        AbstractNoteSequencerView.prototype.onOctaveUp.call (this, event);
+        if (event.isDown ())
+            this.clip.transpose (1);
         return;
     }
     
-    if (event.isDown ())
-        this.clip.transpose (1);
+    if (this.surface.isSelectPressed ())
+    {
+        if (event.isDown ())
+            this.clip.transpose (12);
+        return;
+    }
+    
+    AbstractNoteSequencerView.prototype.onOctaveUp.call (this, event);
 };
 
 SequencerView.prototype.onGridNoteLongPress = function (note)
@@ -74,7 +88,7 @@ SequencerView.prototype.onGridNoteLongPress = function (note)
     //    this.surface.setPendingMode (MODE_NOTE);
 };
 
-AbstractNoteSequencerView.prototype.onGridNote = function (note, velocity)
+SequencerView.prototype.onGridNote = function (note, velocity)
 {
     if (!this.model.canSelectedTrackHoldNotes ())
         return;

@@ -45,24 +45,38 @@ RaindropsView.prototype.scrollRight = AbstractView.prototype.scrollRight;
 
 RaindropsView.prototype.onOctaveDown = function (event)
 {
-    if (!this.surface.isShiftPressed ())
+    if (this.surface.isShiftPressed ())
     {
-        AbstractRaindropsView.prototype.onOctaveDown.call (this, event);
+        if (event.isDown ())
+            this.clip.transpose (-1);
+        return;
+    }
+
+    if (this.surface.isSelectPressed ())
+    {
+        if (event.isDown ())
+            this.clip.transpose (-12);
         return;
     }
     
-    if (event.isDown ())
-        this.clip.transpose (-1);
+    AbstractRaindropsView.prototype.onOctaveDown.call (this, event);
 };
 
 RaindropsView.prototype.onOctaveUp = function (event)
 {
-    if (!this.surface.isShiftPressed ())
+    if (this.surface.isShiftPressed ())
     {
-        AbstractRaindropsView.prototype.onOctaveUp.call (this, event);
+        if (event.isDown ())
+            this.clip.transpose (1);
         return;
     }
     
-    if (event.isDown ())
-        this.clip.transpose (1);
+    if (this.surface.isSelectPressed ())
+    {
+        if (event.isDown ())
+            this.clip.transpose (12);
+        return;
+    }
+    
+    AbstractRaindropsView.prototype.onOctaveUp.call (this, event);
 };
